@@ -1,6 +1,6 @@
 package `in`.androidplay.trackme.di.application
 
-import `in`.androidplay.trackme.db.RunDatabase
+import `in`.androidplay.trackme.room.RunDatabase
 import `in`.androidplay.trackme.util.Constants.RUNNING_DATABASE_NAME
 import android.content.Context
 import androidx.room.Room

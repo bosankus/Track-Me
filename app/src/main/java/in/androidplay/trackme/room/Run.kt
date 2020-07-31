@@ -1,4 +1,4 @@
-package `in`.androidplay.trackme.db
+package `in`.androidplay.trackme.room
 
 import android.graphics.Bitmap
 import androidx.room.Entity
