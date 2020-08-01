@@ -1,11 +1,23 @@
 package `in`.androidplay.trackme.util
 
+import android.Manifest
+import android.annotation.SuppressLint
+
 /**
  * Created by Androidplay
  * Author: Ankush
  * On: 7/31/2020, 7:57 AM
  */
+@SuppressLint("InlinedApi")
 object Constants {
 
+    const val GLOBAL_TAG = "Androidplay"
     const val RUNNING_DATABASE_NAME = "running_db"
+
+    const val PERMISSION_REQUEST_RATIONAL = "You need to accept location permissions to use this app"
+    const val PERMISSION_REQUEST_CODE = 100
+
+    const val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
+    const val COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
+    const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
 }

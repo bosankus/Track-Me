@@ -81,11 +81,11 @@ dependencies {
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
-    // Google SDK for Android
+    // Google Map
     implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
 
-    // Dexter - Permission Library
-    implementation 'com.karumi:dexter:6.2.1'
+    // Easy Permission Library
+    implementation 'pub.devrel:easypermissions:3.0.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'

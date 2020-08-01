@@ -1,5 +1,6 @@
 package `in`.androidplay.trackme.util
 
+import `in`.androidplay.trackme.util.Constants.GLOBAL_TAG
 import android.content.Context
 import android.util.Log
 import android.view.View
@@ -13,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
  */
 object Helper {
 
-    fun logMessage(message: String, tag: String = "Basic") {
-        Log.d(tag, message)
+    fun logMessage(message: String) {
+        Log.d(GLOBAL_TAG, message)
     }
 
     fun showToast(context: Context, message: String) {

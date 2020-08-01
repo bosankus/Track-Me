@@ -1,6 +1,8 @@
 package `in`.androidplay.trackme.ui.activity
 
 import `in`.androidplay.trackme.R
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,10 +20,23 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        setUpFragment()
+        setUpWindow()
+
+        setUpFragments()
     }
 
-    private fun setUpFragment() {
+
+    private fun setUpWindow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
+        } else {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            window.statusBarColor = Color.WHITE
+            window.navigationBarColor = Color.WHITE
+        }
+    }
+
+    private fun setUpFragments() {
         bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
 
         navHostFragment.findNavController()
