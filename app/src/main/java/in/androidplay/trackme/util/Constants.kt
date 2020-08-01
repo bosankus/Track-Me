@@ -14,10 +14,28 @@ object Constants {
     const val GLOBAL_TAG = "Androidplay"
     const val RUNNING_DATABASE_NAME = "running_db"
 
-    const val PERMISSION_REQUEST_RATIONAL = "You need to accept location permissions to use this app"
+
+    // Service constants
+
+    const val ACTION_START_OR_RESUME_SERVICE = "ACTION_START_OR_RESUME_SERVICE"
+    const val ACTION_PAUSE_SERVICE = "ACTION_PAUSE_SERVICE"
+    const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
+
+
+    // Permission constants
+
+    const val PERMISSION_REQUEST_RATIONAL =
+        "You need to accept location permissions to use this app"
     const val PERMISSION_REQUEST_CODE = 100
 
     const val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
     const val COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
     const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
+
+
+    // Notification constants
+
+    const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
+    const val NOTIFICATION_CHANNEL_NAME = "Tracking"
+    const val NOTIFICATION_ID = 1
 }
