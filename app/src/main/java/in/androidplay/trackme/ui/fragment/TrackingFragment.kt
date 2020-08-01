@@ -9,12 +9,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.GoogleMap
+import com.google.android.libraries.maps.OnMapReadyCallback
+import com.google.android.libraries.maps.model.LatLng
+import com.google.android.libraries.maps.model.MapStyleOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
 
 @AndroidEntryPoint
-class TrackingFragment : Fragment(R.layout.fragment_tracking) {
+class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallback {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -24,15 +28,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
 
+        mapView.getMapAsync(this)
+
         setListeners()
-
-        setMap()
-    }
-
-    private fun setMap() {
-        mapView.getMapAsync {
-            map = it
-        }
     }
 
     private fun setListeners() {
@@ -76,5 +74,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         mapView.onSaveInstanceState(outState)
     }
 
-
+    override fun onMapReady(googleMap: GoogleMap?) {
+        this.map = googleMap
+        val style = MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.style_json)
+        map?.setMapStyle(style)
+        map?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.00, 151.00)))
+    }
 }

@@ -31,7 +31,7 @@ import androidx.lifecycle.LifecycleService
  */
 class TrackingService : LifecycleService() {
 
-    var isFirstRun = true
+    private var isFirstRun = true
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
