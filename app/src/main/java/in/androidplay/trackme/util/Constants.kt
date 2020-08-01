@@ -31,11 +31,14 @@ object Constants {
     const val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
     const val COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
     const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
-
+    const val ACTION_SHOW_TRACKING_FRAGMENT = "ACTION_SHOW_TRACKING_FRAGMENT"
 
     // Notification constants
 
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
     const val NOTIFICATION_ID = 1
+
+    const val NOTIFICATION_GROUP_ID = "workout_group"
+    const val NOTIFICATION_GROUP_NAME = "Workout"
 }

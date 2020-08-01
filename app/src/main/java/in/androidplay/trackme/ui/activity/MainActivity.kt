@@ -1,6 +1,8 @@
 package `in`.androidplay.trackme.ui.activity
 
 import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        navigateToTrackingFragmentWhenNeeded(intent)
 
         supportActionBar?.hide()
 
@@ -47,5 +51,18 @@ class MainActivity : AppCompatActivity() {
                     else -> bottomNavigationView.visibility = View.GONE
                 }
             }
+    }
+
+    private fun navigateToTrackingFragmentWhenNeeded(intent: Intent?) {
+        intent?.let {
+            if (it.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+                navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentWhenNeeded(intent)
     }
 }
