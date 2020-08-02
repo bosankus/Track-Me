@@ -46,9 +46,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         subscribeToObservers()
     }
 
+
     private fun setListeners() {
         btnToggleRun.setOnClickListener { toggleRun() }
     }
+
 
     private fun subscribeToObservers() {
         TrackingService.isTracking.observe(viewLifecycleOwner, Observer {
@@ -62,10 +64,12 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         })
     }
 
+
     private fun toggleRun() {
         if (isTracking) sendCommandToService(ACTION_PAUSE_SERVICE)
         else sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun updateTracking(isTracking: Boolean) {
@@ -74,6 +78,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
             btnToggleRun.text = "Start"
         } else btnToggleRun.text = "Stop"
     }
+
 
     private fun moveCameraToUser() {
         if (pathPoint.isNotEmpty() && pathPoint.last().isNotEmpty()) {
@@ -86,6 +91,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         }
     }
 
+
     private fun addAllPolyline() {
         for (polyline in pathPoint) {
             val polyLineOptions = PolylineOptions()
@@ -95,6 +101,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
             map?.addPolyline(polyLineOptions)
         }
     }
+
 
     private fun addLatestPolyline() {
         if (pathPoint.isNotEmpty() && pathPoint.last().size > 1) {
@@ -109,6 +116,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         }
     }
 
+
     private fun sendCommandToService(action: String) {
         Intent(requireContext(), TrackingService::class.java).also {
             it.action = action
@@ -116,35 +124,42 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         mapView.onResume()
     }
+
 
     override fun onStart() {
         super.onStart()
         mapView.onStart()
     }
 
+
     override fun onStop() {
         super.onStop()
         mapView.onStop()
     }
+
 
     override fun onPause() {
         super.onPause()
         mapView.onPause()
     }
 
+
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView.onSaveInstanceState(outState)
     }
+
 
     override fun onMapReady(googleMap: GoogleMap?) {
         this.map = googleMap

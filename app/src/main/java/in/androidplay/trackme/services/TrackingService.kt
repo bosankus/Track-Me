@@ -52,6 +52,7 @@ class TrackingService : LifecycleService() {
     private var isFirstRun = true
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+
     override fun onCreate() {
         super.onCreate()
         postInitialValues()
@@ -61,6 +62,7 @@ class TrackingService : LifecycleService() {
             updateLocationTracking(it)
         })
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
@@ -111,8 +113,8 @@ class TrackingService : LifecycleService() {
             .setContentIntent(getPendingIntent())
 
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
-
     }
+
 
     private fun getPendingIntent() = PendingIntent.getActivity(
         this,
@@ -122,6 +124,7 @@ class TrackingService : LifecycleService() {
         },
         PendingIntent.FLAG_UPDATE_CURRENT
     )
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotification(notificationManager: NotificationManager) {
@@ -142,6 +145,7 @@ class TrackingService : LifecycleService() {
         notificationManager.createNotificationChannelGroup(channelGroup)
     }
 
+
     @SuppressLint("MissingPermission")
     private fun updateLocationTracking(isTracking: Boolean) {
         if (isTracking) {
@@ -160,6 +164,7 @@ class TrackingService : LifecycleService() {
         } else fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
+
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult?) {
             super.onLocationResult(result)
@@ -174,6 +179,7 @@ class TrackingService : LifecycleService() {
         }
     }
 
+
     private fun addPathPoint(location: Location) {
         val position = LatLng(location.latitude, location.longitude)
         pathPoints.value?.apply {
@@ -182,15 +188,18 @@ class TrackingService : LifecycleService() {
         }
     }
 
+
     private fun addEmptyPolyline() = pathPoints.value?.apply {
         add(mutableListOf())
         pathPoints.postValue(this)
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
+
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
     }
+
 
     companion object {
         val isTracking = MutableLiveData<Boolean>()
