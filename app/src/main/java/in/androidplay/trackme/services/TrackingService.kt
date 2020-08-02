@@ -71,9 +71,13 @@ class TrackingService : LifecycleService() {
                         isFirstRun = false
                     } else {
                         logMessage("Resuming service")
+                        setForegroundService()
                     }
                 }
-                ACTION_PAUSE_SERVICE -> logMessage("Pause Service")
+                ACTION_PAUSE_SERVICE -> {
+                    logMessage("Pause Service")
+                    isTracking.postValue(false)
+                }
                 ACTION_STOP_SERVICE -> logMessage("Stop Service")
             }
         }

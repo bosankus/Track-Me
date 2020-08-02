@@ -1,7 +1,9 @@
 package `in`.androidplay.trackme.util
 
+import `in`.androidplay.trackme.R
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Color
 
 /**
  * Created by Androidplay
@@ -46,6 +48,13 @@ object Constants {
 
     // Location constants
 
-    const val LOCATION_UPDATE_INTERVAL = 3000L
-    const val FASTEST_LOCATION_INTERVAL = 1000L
+    const val LOCATION_UPDATE_INTERVAL = 5000L
+    const val FASTEST_LOCATION_INTERVAL = 2000L
+
+
+    // Polyline constants
+
+    const val POLYLINE_COLOR = R.color.grey
+    const val POLYLINE_WIDTH = 9f
+    const val MAP_CAMERA_ZOOM = 17f
 }
