@@ -33,6 +33,7 @@ object Constants {
     const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
     const val ACTION_SHOW_TRACKING_FRAGMENT = "ACTION_SHOW_TRACKING_FRAGMENT"
 
+
     // Notification constants
 
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
@@ -41,4 +42,10 @@ object Constants {
 
     const val NOTIFICATION_GROUP_ID = "workout_group"
     const val NOTIFICATION_GROUP_NAME = "Workout"
+
+
+    // Location constants
+
+    const val LOCATION_UPDATE_INTERVAL = 3000L
+    const val FASTEST_LOCATION_INTERVAL = 1000L
 }

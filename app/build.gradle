@@ -83,6 +83,7 @@ dependencies {
 
     // Google Map
     implementation 'com.google.android.libraries.maps:maps:3.1.0-beta'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
     // Easy Permission Library
     implementation 'pub.devrel:easypermissions:3.0.0'
