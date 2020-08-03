@@ -54,7 +54,10 @@ object Constants {
 
     // Polyline constants
 
-    const val POLYLINE_COLOR = R.color.grey
+    const val POLYLINE_COLOR = Color.BLACK
     const val POLYLINE_WIDTH = 9f
     const val MAP_CAMERA_ZOOM = 17f
+
+
+    const val TIMER_UPDATE_INTERVAL = 50L
 }

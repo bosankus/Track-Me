@@ -8,6 +8,7 @@ import `in`.androidplay.trackme.util.Constants.ACTION_START_OR_RESUME_SERVICE
 import `in`.androidplay.trackme.util.Constants.MAP_CAMERA_ZOOM
 import `in`.androidplay.trackme.util.Constants.POLYLINE_COLOR
 import `in`.androidplay.trackme.util.Constants.POLYLINE_WIDTH
+import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import `in`.androidplay.trackme.viewmodel.MainViewModel
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -35,6 +36,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
     private var isTracking = false
     private var pathPoint = mutableListOf<PolyLine>()
 
+    private var currentTimeMillis = 0L
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
@@ -61,6 +64,12 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
             pathPoint = it
             addLatestPolyline()
             moveCameraToUser()
+        })
+
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+            currentTimeMillis = it
+            val formattedTime = getFormattedStopwatchTime(it, true)
+            tvTimer.text = formattedTime
         })
     }
 
