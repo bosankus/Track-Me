@@ -59,5 +59,7 @@ object Constants {
     const val MAP_CAMERA_ZOOM = 17f
 
 
+    // Stopwatch constants
+
     const val TIMER_UPDATE_INTERVAL = 50L
 }

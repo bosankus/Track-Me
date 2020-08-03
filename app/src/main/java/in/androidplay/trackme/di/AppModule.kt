@@ -1,4 +1,4 @@
-package `in`.androidplay.trackme.di.application
+package `in`.androidplay.trackme.di
 
 import `in`.androidplay.trackme.room.RunDatabase
 import `in`.androidplay.trackme.util.Constants.RUNNING_DATABASE_NAME
