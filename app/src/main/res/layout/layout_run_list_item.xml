@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:layout_margin="8dp"
+        android:background="@color/white"
+        android:elevation="5dp"
+        app:cardCornerRadius="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16sp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgMap"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:civ_border_color="@color/grey"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDistanceTravelled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance: 4.2 Km"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAvgSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed: 4.2 Kmph"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDistanceTravelled" />
+
+            <TextView
+                android:id="@+id/tvTimeTaken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: 45 mins"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvgSpeed" />
+
+            <TextView
+                android:id="@+id/tvCaloriesBurned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calories: 365 kCal"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTimeTaken" />
+
+            <TextView
+                android:id="@+id/tvDateTimeStamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13:51, Tuesday"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCaloriesBurned" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.ui.adapter.RunAdapter
 import `in`.androidplay.trackme.util.PermissionUtil.askPermissions
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
 import `in`.androidplay.trackme.viewmodel.MainViewModel
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_run.*
@@ -19,13 +21,12 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        checkPermission()
-    }
+    private lateinit var runAdapter: RunAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkPermission()
+        setRecyclerView()
         setListeners()
     }
 
@@ -33,6 +34,15 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         fabOpenTrackingFragment.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
+
+        viewModel.runSortedByDate.observe(requireActivity(), Observer {
+            runAdapter.submitList(it)
+        })
+    }
+
+    private fun setRecyclerView() = rvRun.apply {
+        runAdapter = RunAdapter()
+        adapter = runAdapter
     }
 
     private fun checkPermission() {

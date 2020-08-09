@@ -1,6 +1,5 @@
 package `in`.androidplay.trackme.util
 
-import `in`.androidplay.trackme.R
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -22,7 +21,6 @@ object Constants {
 
     const val ANDROID_OREO = Build.VERSION_CODES.O
     const val ANDROID_10 = Build.VERSION_CODES.Q
-
 
 
     // Service constants
@@ -70,4 +68,12 @@ object Constants {
     // Stopwatch constants
 
     const val TIMER_UPDATE_INTERVAL = 50L
+
+
+    // Shared preference constants
+
+    const val SHARED_PREFERENCE_NAME = "sharePref"
+    const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
+    const val KEY_NAME = "KEY_NAME"
+    const val KEY_WEIGHT = "KEY_WEIGHT"
 }
