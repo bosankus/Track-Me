@@ -1,8 +1,11 @@
 package `in`.androidplay.trackme.viewmodel
 
 import `in`.androidplay.trackme.repository.MainRepository
+import `in`.androidplay.trackme.room.Run
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 /**
  * Created by Androidplay
@@ -12,5 +15,7 @@ import androidx.lifecycle.ViewModel
 class MainViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
     ViewModel() {
 
-
+    fun inserRun(run: Run) = viewModelScope.launch {
+        mainRepository.insertRun(run)
+    }
 }

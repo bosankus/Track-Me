@@ -1,6 +1,7 @@
 package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.room.Run
 import `in`.androidplay.trackme.services.PolyLine
 import `in`.androidplay.trackme.services.TrackingService
 import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE
@@ -9,6 +10,8 @@ import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
 import `in`.androidplay.trackme.util.Constants.MAP_CAMERA_ZOOM
 import `in`.androidplay.trackme.util.Constants.POLYLINE_COLOR
 import `in`.androidplay.trackme.util.Constants.POLYLINE_WIDTH
+import `in`.androidplay.trackme.util.Helper.showSnack
+import `in`.androidplay.trackme.util.TimeFormatUtil.calculatePolylineLength
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import `in`.androidplay.trackme.viewmodel.MainViewModel
 import android.annotation.SuppressLint
@@ -24,11 +27,14 @@ import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.GoogleMap
 import com.google.android.libraries.maps.OnMapReadyCallback
 import com.google.android.libraries.maps.model.LatLng
+import com.google.android.libraries.maps.model.LatLngBounds
 import com.google.android.libraries.maps.model.MapStyleOptions.loadRawResourceStyle
 import com.google.android.libraries.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
+import java.util.*
+import kotlin.math.round
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallback {
@@ -57,6 +63,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
     private fun setListeners() {
         btnToggleRun.setOnClickListener { toggleRun() }
+        btnFinishRun.setOnClickListener {
+            zoomToSeeWholeTrack()
+            endRunAndSaveToDB()
+        }
         imgCancelRun.setOnClickListener { showCancelRunDialog() }
     }
 
@@ -117,7 +127,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         this.isTracking = isTracking
         if (!isTracking) {
             btnToggleRun.text = "Start"
-        } else btnToggleRun.text = "Stop"
+            btnFinishRun.isVisible = true
+        } else {
+            btnToggleRun.text = "Stop"
+            btnFinishRun.isVisible = false
+        }
     }
 
 
@@ -154,6 +168,56 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
                 .add(preLastLatLng)
                 .add(lastLatLng)
             map?.addPolyline(polyLineOptions)
+        }
+    }
+
+
+    private fun zoomToSeeWholeTrack() {
+        val bounds = LatLngBounds.Builder()
+        for (polyline in pathPoint) {
+            for (pos in polyline) {
+                bounds.include(pos)
+            }
+        }
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                mapView.height,
+                mapView.width,
+                (mapView.height * 0.05f).toInt()
+            )
+        )
+    }
+
+
+    private fun endRunAndSaveToDB() {
+        val weight = 80f  // dynamic
+        map?.snapshot { bitmap ->
+            var distanceInMeters = 0
+            for (polyline in pathPoint) {
+                distanceInMeters += calculatePolylineLength(polyline).toInt()
+            }
+
+            val avgSpeed =
+                round(((distanceInMeters) / 1000f) / (currentTimeMillis / 1000f / 60 / 60) * 10) / 10f
+            val dateTimeStamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+
+            val run = Run(
+                bitmap,
+                dateTimeStamp,
+                avgSpeed,
+                distanceInMeters,
+                currentTimeMillis,
+                caloriesBurned
+            )
+
+            viewModel.inserRun(run)
+            showSnack(
+                requireActivity().findViewById(R.id.rootView),
+                "Run saved successfully"
+            )
+            stopRun()
         }
     }
 
