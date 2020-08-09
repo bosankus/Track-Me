@@ -4,6 +4,7 @@ import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE
 import `in`.androidplay.trackme.util.Constants.ACTION_START_OR_RESUME_SERVICE
 import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
+import `in`.androidplay.trackme.util.Constants.ANDROID_OREO
 import `in`.androidplay.trackme.util.Constants.FASTEST_LOCATION_INTERVAL
 import `in`.androidplay.trackme.util.Constants.LOCATION_UPDATE_INTERVAL
 import `in`.androidplay.trackme.util.Constants.NOTIFICATION_CHANNEL_ID
@@ -65,13 +66,28 @@ class TrackingService : LifecycleService() {
 
     private lateinit var currentNotificationBuilder: NotificationCompat.Builder
 
+    // To check if the run is for the first time
     private var isFirstRun = true
+
+    private var serviceKilled = false
+
     private val timeRunInSeconds = MutableLiveData<Long>()
     private var isTimerEnabled = false  // setting at 'false' initially
     private var lapTime = 0L            // time to which run time will be added
     private var timeRun = 0L            // total time of run. All lap times added together
     private var timeStarted = 0L        // timestamp when starting the timer.
     private var lastSecondTimestamp = 0L
+
+    companion object {
+        // To
+        val timeRunInMillis = MutableLiveData<Long>()
+
+        // To observe tracking is running or not
+        val isTracking = MutableLiveData<Boolean>()
+
+        // To hold list of (list of co-ordinates)
+        val pathPoints = MutableLiveData<PolyLines>()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -103,10 +119,21 @@ class TrackingService : LifecycleService() {
                     logMessage("Pause Service")
                     pauseService()
                 }
-                ACTION_STOP_SERVICE -> logMessage("Stop Service")
+                ACTION_STOP_SERVICE -> {
+                    killService()
+                    logMessage("Stop Service")
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+
+    private fun postInitialValues() {
+        isTracking.postValue(false)
+        pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
     }
 
 
@@ -119,37 +146,19 @@ class TrackingService : LifecycleService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= ANDROID_OREO) {
             createNotification(notificationManager)
         }
 
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
         timeRunInSeconds.observe(this, Observer {
-            val notification = currentNotificationBuilder
-                .setContentText(getFormattedStopwatchTime(it * 1000))
-            notificationManager.notify(NOTIFICATION_ID, notification.build())
+            if (!serviceKilled) {
+                val notification = currentNotificationBuilder
+                    .setContentText(getFormattedStopwatchTime(it * 1000))
+                notificationManager.notify(NOTIFICATION_ID, notification.build())
+            }
         })
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotification(notificationManager: NotificationManager) {
-        val channel = NotificationChannel(
-            NOTIFICATION_CHANNEL_ID,
-            NOTIFICATION_CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_LOW
-        )
-        channel.lightColor = Color.YELLOW
-        channel.setShowBadge(true)
-
-        val channelGroup = NotificationChannelGroup(
-            NOTIFICATION_GROUP_ID,
-            NOTIFICATION_GROUP_NAME
-        )
-
-        notificationManager.createNotificationChannel(channel)
-        notificationManager.createNotificationChannelGroup(channelGroup)
     }
 
 
@@ -180,6 +189,36 @@ class TrackingService : LifecycleService() {
     }
 
 
+    private fun killService() {
+        serviceKilled = true
+        isFirstRun = true
+        pauseService()
+        postInitialValues()
+        stopForeground(false)
+        stopSelf()
+    }
+
+
+    @RequiresApi(ANDROID_OREO)
+    private fun createNotification(notificationManager: NotificationManager) {
+        val channel = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            NOTIFICATION_CHANNEL_NAME,
+            NotificationManager.IMPORTANCE_LOW
+        )
+        channel.lightColor = Color.YELLOW
+        channel.setShowBadge(true)
+
+        val channelGroup = NotificationChannelGroup(
+            NOTIFICATION_GROUP_ID,
+            NOTIFICATION_GROUP_NAME
+        )
+
+        notificationManager.createNotificationChannel(channel)
+        notificationManager.createNotificationChannelGroup(channelGroup)
+    }
+
+
     private fun updateNotificationTrackingState(isTracking: Boolean) {
         val notificationActionText = if (isTracking) "Pause" else "Resume"
         val pendingIntent = if (isTracking) {
@@ -202,10 +241,12 @@ class TrackingService : LifecycleService() {
             isAccessible = true
             set(currentNotificationBuilder, ArrayList<NotificationCompat.Action>())
         }
-        currentNotificationBuilder = baseNotificationBuilder
-            .addAction(R.drawable.ic_pause, notificationActionText, pendingIntent)
 
-        notificationManager.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+        if (!serviceKilled) {
+            currentNotificationBuilder = baseNotificationBuilder
+                .addAction(R.drawable.ic_pause, notificationActionText, pendingIntent)
+            notificationManager.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+        }
     }
 
 
@@ -235,7 +276,6 @@ class TrackingService : LifecycleService() {
                 result?.locations?.let { locations ->
                     for (location in locations) {
                         addPathPoint(location)
-                        logMessage("NEW LOCATION: ${location.latitude}, ${location.longitude}")
                     }
                 }
             }
@@ -243,11 +283,13 @@ class TrackingService : LifecycleService() {
     }
 
 
-    private fun addPathPoint(location: Location) {
-        val position = LatLng(location.latitude, location.longitude)
-        pathPoints.value?.apply {
-            last().add(position)
-            pathPoints.postValue(this)
+    private fun addPathPoint(location: Location?) {
+        location?.let {
+            val position = LatLng(location.latitude, location.longitude)
+            pathPoints.value?.apply {
+                last().add(position)
+                pathPoints.postValue(this)
+            }
         }
     }
 
@@ -257,18 +299,4 @@ class TrackingService : LifecycleService() {
         pathPoints.postValue(this)
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
-
-    private fun postInitialValues() {
-        isTracking.postValue(false)
-        pathPoints.postValue(mutableListOf())
-        timeRunInSeconds.postValue(0L)
-        timeRunInMillis.postValue(0L)
-    }
-
-
-    companion object {
-        val timeRunInMillis = MutableLiveData<Long>()
-        val isTracking = MutableLiveData<Boolean>()
-        val pathPoints = MutableLiveData<PolyLines>()
-    }
 }

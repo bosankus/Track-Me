@@ -1,5 +1,6 @@
 package `in`.androidplay.trackme.util
 
+import `in`.androidplay.trackme.util.Constants.ANDROID_10
 import `in`.androidplay.trackme.util.Constants.BACKGROUND_LOCATION
 import `in`.androidplay.trackme.util.Constants.COARSE_LOCATION
 import `in`.androidplay.trackme.util.Constants.FINE_LOCATION
@@ -18,7 +19,7 @@ import pub.devrel.easypermissions.EasyPermissions
 object PermissionUtil {
 
     fun hasLocationPermission(context: Context) =
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT < ANDROID_10) {
             EasyPermissions.hasPermissions(
                 context,
                 FINE_LOCATION,
@@ -37,7 +38,7 @@ object PermissionUtil {
         if (hasLocationPermission(fragment.requireContext())) {
             return
         } else {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT < ANDROID_10) {
                 EasyPermissions.requestPermissions(
                     fragment,
                     PERMISSION_REQUEST_RATIONAL,

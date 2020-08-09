@@ -4,6 +4,7 @@ import `in`.androidplay.trackme.R
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 
 /**
  * Created by Androidplay
@@ -15,6 +16,13 @@ object Constants {
 
     const val GLOBAL_TAG = "Androidplay"
     const val RUNNING_DATABASE_NAME = "running_db"
+
+
+    // SDK versions
+
+    const val ANDROID_OREO = Build.VERSION_CODES.O
+    const val ANDROID_10 = Build.VERSION_CODES.Q
+
 
 
     // Service constants
