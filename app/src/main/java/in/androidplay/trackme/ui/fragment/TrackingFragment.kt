@@ -66,8 +66,13 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
     private fun setListeners() {
         btnToggleRun.setOnClickListener { toggleRun() }
         btnFinishRun.setOnClickListener {
-            zoomToSeeWholeTrack()
-            endRunAndSaveToDB()
+            if (pathPoint.isNotEmpty()) {
+                zoomToSeeWholeTrack()
+                endRunAndSaveToDB()
+            } else showSnack(
+                requireView(),
+                "Not ran yet!"
+            )
         }
         imgCancelRun.setOnClickListener { showCancelRunDialog() }
     }
