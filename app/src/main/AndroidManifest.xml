@@ -35,9 +35,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <service android:name=".services.SampleIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
         <service android:name=".services.TrackingService"
             android:foregroundServiceType="location"/>
     </application>

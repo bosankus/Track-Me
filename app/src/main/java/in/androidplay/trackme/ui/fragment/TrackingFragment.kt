@@ -34,6 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -49,6 +50,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
     private var currentTimeMillis = 0L
 
+    // @set:Inject - showing error
+    var weight = 80f
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mapView.onCreate(savedInstanceState)
@@ -57,7 +61,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         mapView.getMapAsync(this)
         addAllPolyline()
         subscribeToObservers()
-
     }
 
 
@@ -191,7 +194,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
 
     private fun endRunAndSaveToDB() {
-        val weight = 80f  // dynamic
         map?.snapshot { bitmap ->
             var distanceInMeters = 0
             for (polyline in pathPoint) {

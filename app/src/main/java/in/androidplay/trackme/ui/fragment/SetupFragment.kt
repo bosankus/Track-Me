@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_setup.*
@@ -18,10 +19,24 @@ import javax.inject.Inject
 class SetupFragment : Fragment(R.layout.fragment_setup) {
 
     @Inject
-    private lateinit var sharedPreference: SharedPreferences
+    lateinit var sharedPreference: SharedPreferences
+
+    @set:Inject
+    var isFirstAppOpen = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isFirstAppOpen) {
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.fragment_setup, true)
+                .build()
+            findNavController().navigate(
+                R.id.action_setupFragment_to_runFragment,
+                savedInstanceState,
+                navOptions
+            )
+        }
 
         setListeners()
 
@@ -44,11 +59,13 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
     private fun writeDataToSharedPreference(): Boolean {
         val name = etSetupName.text.toString()
         val weight = etSetupWeight.text.toString()
-        if (name.isEmpty() || name.isEmpty()) return false
+        if (name.isEmpty() || weight.isEmpty()) {
+            return false
+        }
         sharedPreference.edit()
             .putBoolean(KEY_FIRST_TIME_TOGGLE, false)
             .putString(KEY_NAME, name)
-            .putString(KEY_WEIGHT, weight)
+            .putFloat(KEY_WEIGHT, weight.toFloat())
             .apply()
         return true
     }

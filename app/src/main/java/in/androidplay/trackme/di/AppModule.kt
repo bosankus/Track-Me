@@ -1,10 +1,14 @@
 package `in`.androidplay.trackme.di
 
 import `in`.androidplay.trackme.room.RunDatabase
+import `in`.androidplay.trackme.util.Constants.KEY_FIRST_TIME_TOGGLE
+import `in`.androidplay.trackme.util.Constants.KEY_NAME
+import `in`.androidplay.trackme.util.Constants.KEY_WEIGHT
 import `in`.androidplay.trackme.util.Constants.RUNNING_DATABASE_NAME
 import `in`.androidplay.trackme.util.Constants.SHARED_PREFERENCE_NAME
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -37,8 +41,25 @@ object AppModule {
     @Provides
     fun provideRunDao(db: RunDatabase) = db.getRunDao()
 
+
     @Singleton
     @Provides
-    fun provideSharedPreference(@ApplicationContext app: Context) =
+    fun provideSharedPreference(@ApplicationContext app: Context): SharedPreferences =
         app.getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE)
+
+
+    @Singleton
+    @Provides
+    fun provideName(sharedPreferences: SharedPreferences) =
+        sharedPreferences.getString(KEY_NAME, "") ?: ""
+
+    @Singleton
+    @Provides
+    fun provideWeight(sharedPreferences: SharedPreferences) =
+        sharedPreferences.getFloat(KEY_WEIGHT, 80f)
+
+    @Singleton
+    @Provides
+    fun provideFirsTimeToggle(sharedPreferences: SharedPreferences) =
+        sharedPreferences.getBoolean(KEY_FIRST_TIME_TOGGLE, true)
 }

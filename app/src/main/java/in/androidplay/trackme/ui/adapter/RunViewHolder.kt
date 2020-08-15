@@ -19,11 +19,11 @@ class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     @SuppressLint("SetTextI18n")
     fun bind(runItem: Run) {
-        itemView.tvDistanceTravelled.text = "${runItem.distanceInMeters / 1000f} km"
-        itemView.tvAvgSpeed.text = "${runItem.avgSpeedInKMH} km/H"
-        itemView.tvCaloriesBurned.text = "${runItem.caloriesBurnt} kcal"
-        itemView.tvTimeTaken.text = getFormattedStopwatchTime(runItem.timeInMillis)
-        itemView.tvDateTimeStamp.text =
+        itemView.tvDistanceTravelled.text = "Distance: ${runItem.distanceInMeters / 1000f} km"
+        itemView.tvAvgSpeed.text = "Avg. Speed: ${runItem.avgSpeedInKMH} km/H"
+        itemView.tvCaloriesBurned.text = "Calories: ${runItem.caloriesBurnt} kcal"
+        itemView.tvTimeTaken.text = "Duration: " + getFormattedStopwatchTime(runItem.timeInMillis)
+        itemView.tvDateTimeStamp.text = "Date" +
             SimpleDateFormat("dd.MM.yy", Locale.getDefault()).format(runItem.timestamp)
         Glide.with(itemView.context)
             .load(runItem.img)
