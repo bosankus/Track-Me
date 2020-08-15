@@ -5,6 +5,7 @@ import `in`.androidplay.trackme.ui.adapter.RunAdapter
 import `in`.androidplay.trackme.util.PermissionUtil.askPermissions
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
 import `in`.androidplay.trackme.viewmodel.MainViewModel
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_run.*
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionCallbacks {
@@ -23,13 +25,19 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
     private lateinit var runAdapter: RunAdapter
 
+    @set:Inject
+    var name = ""
+
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tvHeading.text = "Hey $name"
         checkPermission()
         setRecyclerView()
         setListeners()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setListeners() {
         fabOpenTrackingFragment.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
