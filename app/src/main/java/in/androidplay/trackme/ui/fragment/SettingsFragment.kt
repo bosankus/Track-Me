@@ -22,13 +22,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadFromSharedPreference()
         setListeners()
     }
 
     private fun setListeners() {
         efabApplyChanges.setOnClickListener {
-            val success = writeDataToSharedPreference()
+            val success = applyChangesToSharedPreference()
             if (success) {
                 showSnack(
                     requireActivity().findViewById(R.id.fragment_settings),
@@ -43,7 +43,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
-    private fun writeDataToSharedPreference(): Boolean {
+    private fun loadFromSharedPreference() {
+        etSetupName.setText(sharedPref.getString(KEY_NAME, ""))
+        etSetupWeight.setText(sharedPref.getFloat(KEY_WEIGHT, 80f).toString())
+    }
+
+    private fun applyChangesToSharedPreference(): Boolean {
         val name = etSetupName.text.toString()
         val weight = etSetupWeight.text.toString()
         if (name.isEmpty() || weight.isEmpty()) {

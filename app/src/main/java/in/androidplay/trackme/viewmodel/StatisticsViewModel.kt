@@ -11,4 +11,11 @@ import androidx.lifecycle.ViewModel
  */
 class StatisticsViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
     ViewModel() {
+
+    val totalTimeRun = mainRepository.getTotalRunTimeInMillis()
+    val totalDistanceRun = mainRepository.getTotalDistance()
+    val totalCaloriesBurned = mainRepository.getTotalCaloriesBurnt()
+    val totalAvgSpeed = mainRepository.getTotalAvgSpeed()
+
+    val runSortedByDate = mainRepository.getAllRunsSortedByDate()
 }
