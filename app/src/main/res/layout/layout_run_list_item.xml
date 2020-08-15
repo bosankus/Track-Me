@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16sp">
+            android:paddingBottom="8dp">
 
             <ImageView
                 android:id="@+id/imgMap"
@@ -34,6 +34,7 @@
                 android:id="@+id/tvDistanceTravelled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,7 @@
                 android:id="@+id/tvTimeTaken"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDistanceTravelled" />
@@ -68,6 +70,7 @@
                 android:id="@+id/tvDateTimeStamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCaloriesBurned" />

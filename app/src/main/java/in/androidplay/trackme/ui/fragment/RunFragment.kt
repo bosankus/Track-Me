@@ -1,6 +1,7 @@
 package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.services.SortType
 import `in`.androidplay.trackme.ui.adapter.RunAdapter
 import `in`.androidplay.trackme.util.PermissionUtil.askPermissions
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
@@ -43,7 +44,9 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
 
-        viewModel.runSortedByDate.observe(requireActivity(), Observer {
+        // TODO: Need to change this from spinner
+        viewModel.sortType(SortType.CALORIES)
+        viewModel.run.observe(requireActivity(), Observer {
             runAdapter.submitList(it)
         })
     }

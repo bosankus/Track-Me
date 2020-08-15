@@ -214,7 +214,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
                 caloriesBurned
             )
 
-            viewModel.inserRun(run)
+            viewModel.insertRun(run)
             showSnack(
                 requireActivity().findViewById(R.id.rootView),
                 "Run saved successfully"

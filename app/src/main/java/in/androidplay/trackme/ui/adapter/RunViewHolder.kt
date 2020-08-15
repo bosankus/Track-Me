@@ -23,7 +23,7 @@ class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.tvAvgSpeed.text = "Avg. Speed: ${runItem.avgSpeedInKMH} km/H"
         itemView.tvCaloriesBurned.text = "Calories: ${runItem.caloriesBurnt} kcal"
         itemView.tvTimeTaken.text = "Duration: " + getFormattedStopwatchTime(runItem.timeInMillis)
-        itemView.tvDateTimeStamp.text = "Date" +
+        itemView.tvDateTimeStamp.text = "Date: " +
             SimpleDateFormat("dd.MM.yy", Locale.getDefault()).format(runItem.timestamp)
         Glide.with(itemView.context)
             .load(runItem.img)
