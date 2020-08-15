@@ -1,7 +1,7 @@
 package `in`.androidplay.trackme.data.viewmodel
 
 import `in`.androidplay.trackme.data.repository.MainRepository
-import `in`.androidplay.trackme.room.Run
+import `in`.androidplay.trackme.data.room.Run
 import `in`.androidplay.trackme.services.SortType
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MediatorLiveData

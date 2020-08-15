@@ -1,7 +1,7 @@
 package `in`.androidplay.trackme.ui.adapter
 
 import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.room.Run
+import `in`.androidplay.trackme.data.room.Run
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

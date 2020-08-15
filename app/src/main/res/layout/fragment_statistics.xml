@@ -12,14 +12,55 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tvStatisticsHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="It's getting ready"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="25dp"
+            android:text="@string/statistics"
+            android:textColor="@color/grey"
+            android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStatisticsHeading" />
+
+        <TextView
+            android:id="@+id/tvTotalDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/tvTotalTime"
+            app:layout_constraintTop_toBottomOf="@+id/tvStatisticsHeading" />
+
+        <TextView
+            android:id="@+id/tvTotalAvgSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalTime" />
+
+        <TextView
+            android:id="@+id/tvTotalCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/tvTotalDistance"
+            app:layout_constraintTop_toBottomOf="@+id/tvTotalDistance" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

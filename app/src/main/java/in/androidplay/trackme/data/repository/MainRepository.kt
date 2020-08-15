@@ -1,7 +1,7 @@
 package `in`.androidplay.trackme.data.repository
 
-import `in`.androidplay.trackme.room.Run
-import `in`.androidplay.trackme.room.RunDAO
+import `in`.androidplay.trackme.data.room.Run
+import `in`.androidplay.trackme.data.room.RunDAO
 import javax.inject.Inject
 
 /**

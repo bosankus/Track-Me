@@ -1,4 +1,4 @@
-package `in`.androidplay.trackme.room
+package `in`.androidplay.trackme.data.room
 
 import `in`.androidplay.trackme.util.Converters
 import androidx.room.Database

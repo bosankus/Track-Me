@@ -1,6 +1,6 @@
 package `in`.androidplay.trackme.di
 
-import `in`.androidplay.trackme.room.RunDatabase
+import `in`.androidplay.trackme.data.room.RunDatabase
 import `in`.androidplay.trackme.util.Constants.KEY_FIRST_TIME_TOGGLE
 import `in`.androidplay.trackme.util.Constants.KEY_NAME
 import `in`.androidplay.trackme.util.Constants.KEY_WEIGHT

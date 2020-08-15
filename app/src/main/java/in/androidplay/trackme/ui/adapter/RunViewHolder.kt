@@ -1,6 +1,6 @@
 package `in`.androidplay.trackme.ui.adapter
 
-import `in`.androidplay.trackme.room.Run
+import `in`.androidplay.trackme.data.room.Run
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import android.annotation.SuppressLint
 import android.view.View

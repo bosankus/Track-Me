@@ -10,8 +10,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="35dp">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvSettingsHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/grey"
+            android:textSize="32sp"
+            android:text="@string/settings"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/etSetupName"
@@ -23,7 +34,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSettingsHeading"
             tools:ignore="Autofill" />
 
         <EditText

@@ -1,7 +1,7 @@
 package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.room.Run
+import `in`.androidplay.trackme.data.room.Run
 import `in`.androidplay.trackme.services.PolyLine
 import `in`.androidplay.trackme.services.TrackingService
 import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE

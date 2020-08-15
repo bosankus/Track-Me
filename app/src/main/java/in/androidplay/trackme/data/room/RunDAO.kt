@@ -1,4 +1,4 @@
-package `in`.androidplay.trackme.room
+package `in`.androidplay.trackme.data.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

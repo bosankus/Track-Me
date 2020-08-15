@@ -7,7 +7,7 @@ package `in`.androidplay.trackme.ui.adapter
  * This helps to load only the changed items and not the whole list every time
  */
 
-import `in`.androidplay.trackme.room.Run
+import `in`.androidplay.trackme.data.room.Run
 import androidx.recyclerview.widget.DiffUtil
 
 /**
