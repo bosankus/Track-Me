@@ -3,13 +3,11 @@ package `in`.androidplay.trackme.ui.fragment
 import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.util.Constants.KEY_NAME
 import `in`.androidplay.trackme.util.Constants.KEY_WEIGHT
-import `in`.androidplay.trackme.util.Helper
-import `in`.androidplay.trackme.util.Helper.showSnack
+import `in`.androidplay.trackme.util.UIHelper.showSnack
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject

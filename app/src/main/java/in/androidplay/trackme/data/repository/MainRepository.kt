@@ -1,4 +1,4 @@
-package `in`.androidplay.trackme.repository
+package `in`.androidplay.trackme.data.repository
 
 import `in`.androidplay.trackme.room.Run
 import `in`.androidplay.trackme.room.RunDAO

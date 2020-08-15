@@ -13,7 +13,7 @@ import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_ID
 import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_NAME
 import `in`.androidplay.trackme.util.Constants.NOTIFICATION_ID
 import `in`.androidplay.trackme.util.Constants.TIMER_UPDATE_INTERVAL
-import `in`.androidplay.trackme.util.Helper.logMessage
+import `in`.androidplay.trackme.util.UIHelper.logMessage
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import android.annotation.SuppressLint

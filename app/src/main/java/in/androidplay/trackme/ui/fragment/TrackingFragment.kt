@@ -10,10 +10,10 @@ import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
 import `in`.androidplay.trackme.util.Constants.MAP_CAMERA_ZOOM
 import `in`.androidplay.trackme.util.Constants.POLYLINE_COLOR
 import `in`.androidplay.trackme.util.Constants.POLYLINE_WIDTH
-import `in`.androidplay.trackme.util.Helper.showSnack
+import `in`.androidplay.trackme.util.UIHelper.showSnack
 import `in`.androidplay.trackme.util.TimeFormatUtil.calculatePolylineLength
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
-import `in`.androidplay.trackme.viewmodel.MainViewModel
+import `in`.androidplay.trackme.data.viewmodel.MainViewModel
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_tracking.*
 import java.util.*
-import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint

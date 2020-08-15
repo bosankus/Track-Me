@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
  * Author: Ankush
  * On: 7/30/2020, 10:54 PM
  */
-object Helper {
+object UIHelper {
 
     fun logMessage(message: String) {
         Log.d(GLOBAL_TAG, message)

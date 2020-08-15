@@ -5,7 +5,7 @@ import `in`.androidplay.trackme.services.SortType
 import `in`.androidplay.trackme.ui.adapter.RunAdapter
 import `in`.androidplay.trackme.util.PermissionUtil.askPermissions
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
-import `in`.androidplay.trackme.viewmodel.MainViewModel
+import `in`.androidplay.trackme.data.viewmodel.MainViewModel
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View

@@ -1,7 +1,7 @@
 package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.viewmodel.StatisticsViewModel
+import `in`.androidplay.trackme.data.viewmodel.StatisticsViewModel
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment

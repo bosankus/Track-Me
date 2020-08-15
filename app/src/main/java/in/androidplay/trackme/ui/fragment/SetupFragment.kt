@@ -4,7 +4,7 @@ import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.util.Constants.KEY_FIRST_TIME_TOGGLE
 import `in`.androidplay.trackme.util.Constants.KEY_NAME
 import `in`.androidplay.trackme.util.Constants.KEY_WEIGHT
-import `in`.androidplay.trackme.util.Helper.showSnack
+import `in`.androidplay.trackme.util.UIHelper.showSnack
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View

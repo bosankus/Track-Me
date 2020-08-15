@@ -1,6 +1,6 @@
-package `in`.androidplay.trackme.viewmodel
+package `in`.androidplay.trackme.data.viewmodel
 
-import `in`.androidplay.trackme.repository.MainRepository
+import `in`.androidplay.trackme.data.repository.MainRepository
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 
