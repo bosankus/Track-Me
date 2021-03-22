@@ -46,7 +46,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
         // TODO: Need to change this from spinner
         viewModel.sortType(SortType.CALORIES)
-        viewModel.run.observe(requireActivity(), Observer {
+        viewModel.run.observe(requireActivity(), {
             runAdapter.submitList(it)
         })
     }

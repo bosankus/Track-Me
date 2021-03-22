@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
  * Author: Ankush
  * On: 7/31/2020, 8:21 AM
  */
-class StatisticsViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
+class StatisticsViewModel @ViewModelInject constructor(mainRepository: MainRepository) :
     ViewModel() {
 
     val totalTimeRun = mainRepository.getTotalRunTimeInMillis()
