@@ -3,18 +3,21 @@ package `in`.androidplay.trackme.data.viewmodel
 import `in`.androidplay.trackme.data.repository.MainRepository
 import `in`.androidplay.trackme.data.room.Run
 import `in`.androidplay.trackme.services.SortType
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Created by Androidplay
  * Author: Ankush
  * On: 7/31/2020, 8:19 AM
  */
-class MainViewModel @ViewModelInject constructor(private val mainRepository: MainRepository) :
+
+@HiltViewModel
+class MainViewModel @Inject constructor(private val mainRepository: MainRepository) :
     ViewModel() {
 
     private val runSortedByDate = mainRepository.getAllRunsSortedByDate()
