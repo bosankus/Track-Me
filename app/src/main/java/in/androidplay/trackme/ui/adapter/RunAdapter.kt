@@ -2,6 +2,7 @@ package `in`.androidplay.trackme.ui.adapter
 
 import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.data.room.Run
+import `in`.androidplay.trackme.databinding.LayoutRunListItemBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -13,9 +14,9 @@ import androidx.recyclerview.widget.ListAdapter
  */
 class RunAdapter : ListAdapter<Run, RunViewHolder>(RunDiffUtil()){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_run_list_item, parent, false)
-        return RunViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = LayoutRunListItemBinding.inflate(layoutInflater, parent,false)
+        return RunViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {

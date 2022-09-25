@@ -2,6 +2,8 @@ package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.data.room.Run
+import `in`.androidplay.trackme.data.viewmodel.MainViewModel
+import `in`.androidplay.trackme.databinding.FragmentTrackingBinding
 import `in`.androidplay.trackme.services.PolyLine
 import `in`.androidplay.trackme.services.TrackingService
 import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE
@@ -10,14 +12,15 @@ import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
 import `in`.androidplay.trackme.util.Constants.MAP_CAMERA_ZOOM
 import `in`.androidplay.trackme.util.Constants.POLYLINE_COLOR
 import `in`.androidplay.trackme.util.Constants.POLYLINE_WIDTH
-import `in`.androidplay.trackme.util.UIHelper.showSnack
 import `in`.androidplay.trackme.util.TimeFormatUtil.calculatePolylineLength
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
-import `in`.androidplay.trackme.data.viewmodel.MainViewModel
+import `in`.androidplay.trackme.util.UIHelper.showSnack
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,12 +35,14 @@ import com.google.android.libraries.maps.model.MapStyleOptions.loadRawResourceSt
 import com.google.android.libraries.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_tracking.*
 import java.util.*
 import kotlin.math.round
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallback {
+
+    private var _binding: FragmentTrackingBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -52,29 +57,36 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
     // @set:Inject - showing error
     var weight = 80f
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentTrackingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mapView.onCreate(savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
 
         setListeners()
-        mapView.getMapAsync(this)
+        binding.mapView.getMapAsync(this)
         addAllPolyline()
         subscribeToObservers()
     }
 
 
     private fun setListeners() {
-        btnToggleRun.setOnClickListener { toggleRun() }
-        btnFinishRun.setOnClickListener {
+        binding.btnToggleRun.setOnClickListener { toggleRun() }
+        binding.btnFinishRun.setOnClickListener {
             if (pathPoint.isNotEmpty()) {
                 zoomToSeeWholeTrack()
                 endRunAndSaveToDB()
             } else showSnack(
-                requireView(),
-                "Not ran yet!"
+                requireView(), "Not ran yet!"
             )
         }
-        imgCancelRun.setOnClickListener { showCancelRunDialog() }
+        binding.imgCancelRun.setOnClickListener { showCancelRunDialog() }
     }
 
 
@@ -91,9 +103,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
             currentTimeMillis = it
-            imgCancelRun.isVisible = currentTimeMillis > 0L
+            binding.imgCancelRun.isVisible = currentTimeMillis > 0L
             val formattedTime = getFormattedStopwatchTime(it, true)
-            tvTimer.text = formattedTime
+            binding.tvTimer.text = formattedTime
 
         })
     }
@@ -107,17 +119,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
 
     private fun showCancelRunDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-            .setTitle("Cancel the run")
+        val dialog = MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.AlertDialogTheme
+        ).setTitle("Cancel the run")
             .setMessage("Are you sure to cancel the run and delete all the data")
-            .setIcon(R.drawable.ic_run)
-            .setPositiveButton("Yes") { _, _ ->
+            .setIcon(R.drawable.ic_run).setPositiveButton("Yes") { _, _ ->
                 stopRun()
-            }
-            .setNegativeButton("No") { dialogInterface, _ ->
+            }.setNegativeButton("No") { dialogInterface, _ ->
                 dialogInterface.cancel()
-            }
-            .create()
+            }.create()
 
         dialog.show()
     }
@@ -133,11 +144,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (!isTracking) {
-            btnToggleRun.text = "Start"
-            btnFinishRun.isVisible = true
+            binding.btnToggleRun.text = "Start"
+            binding.btnFinishRun.isVisible = true
         } else {
-            btnToggleRun.text = "Stop"
-            btnFinishRun.isVisible = false
+            binding.btnToggleRun.text = "Stop"
+            binding.btnFinishRun.isVisible = false
         }
     }
 
@@ -146,8 +157,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         if (pathPoint.isNotEmpty() && pathPoint.last().isNotEmpty()) {
             map?.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    pathPoint.last().last(),
-                    MAP_CAMERA_ZOOM
+                    pathPoint.last().last(), MAP_CAMERA_ZOOM
                 )
             )
         }
@@ -156,10 +166,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
     private fun addAllPolyline() {
         for (polyline in pathPoint) {
-            val polyLineOptions = PolylineOptions()
-                .color(POLYLINE_COLOR)
-                .width(POLYLINE_WIDTH)
-                .addAll(polyline)
+            val polyLineOptions =
+                PolylineOptions().color(POLYLINE_COLOR).width(POLYLINE_WIDTH).addAll(polyline)
             map?.addPolyline(polyLineOptions)
         }
     }
@@ -169,11 +177,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         if (pathPoint.isNotEmpty() && pathPoint.last().size > 1) {
             val preLastLatLng = pathPoint.last()[pathPoint.last().size - 2]
             val lastLatLng = pathPoint.last().last()
-            val polyLineOptions = PolylineOptions()
-                .color(POLYLINE_COLOR)
-                .width(POLYLINE_WIDTH)
-                .add(preLastLatLng)
-                .add(lastLatLng)
+            val polyLineOptions =
+                PolylineOptions().color(POLYLINE_COLOR).width(POLYLINE_WIDTH).add(preLastLatLng)
+                    .add(lastLatLng)
             map?.addPolyline(polyLineOptions)
         }
     }
@@ -189,9 +195,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
         map?.moveCamera(
             CameraUpdateFactory.newLatLngBounds(
                 bounds.build(),
-                mapView.height,
-                mapView.width,
-                (mapView.height * 0.05f).toInt()
+                binding.mapView.height,
+                binding.mapView.width,
+                (binding.mapView.height * 0.05f).toInt()
             )
         )
     }
@@ -210,18 +216,12 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
 
             val run = Run(
-                bitmap,
-                dateTimeStamp,
-                avgSpeed,
-                distanceInMeters,
-                currentTimeMillis,
-                caloriesBurned
+                bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeMillis, caloriesBurned
             )
 
             viewModel.insertRun(run)
             showSnack(
-                requireActivity().findViewById(R.id.rootView),
-                "Run saved successfully"
+                requireActivity().findViewById(R.id.rootView), "Run saved successfully"
             )
             stopRun()
         }
@@ -238,37 +238,37 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
     override fun onResume() {
         super.onResume()
-        mapView.onResume()
+        binding.mapView.onResume()
     }
 
 
     override fun onStart() {
         super.onStart()
-        mapView.onStart()
+        binding.mapView.onStart()
     }
 
 
     override fun onStop() {
         super.onStop()
-        mapView.onStop()
+        binding.mapView.onStop()
     }
 
 
     override fun onPause() {
         super.onPause()
-        mapView.onPause()
+        binding.mapView.onPause()
     }
 
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
     }
 
 

@@ -1,6 +1,7 @@
 package `in`.androidplay.trackme.ui.activity
 
 import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.databinding.ActivityMainBinding
 import `in`.androidplay.trackme.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import android.content.Intent
 import android.graphics.Color
@@ -8,17 +9,20 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.rootView)
 
         navigateToTrackingFragmentWhenNeeded(intent)
 
@@ -41,14 +45,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpFragments() {
-        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+        binding.bottomNavigationView.setupWithNavController(findNavController(R.id.navHostFragment))
 
-        navHostFragment.findNavController()
+        findNavController(R.id.navHostFragment)
             .addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment ->
-                        bottomNavigationView.visibility = View.VISIBLE
-                    else -> bottomNavigationView.visibility = View.GONE
+                        binding.bottomNavigationView.visibility = View.VISIBLE
+                    else -> binding.bottomNavigationView.visibility = View.GONE
                 }
             }
     }
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigateToTrackingFragmentWhenNeeded(intent: Intent?) {
         intent?.let {
             if (it.action == ACTION_SHOW_TRACKING_FRAGMENT) {
-                navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+                findNavController(R.id.navHostFragment).navigate(R.id.action_global_trackingFragment)
             }
         }
     }
