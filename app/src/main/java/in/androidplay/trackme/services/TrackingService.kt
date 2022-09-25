@@ -13,7 +13,6 @@ import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_ID
 import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_NAME
 import `in`.androidplay.trackme.util.Constants.NOTIFICATION_ID
 import `in`.androidplay.trackme.util.Constants.TIMER_UPDATE_INTERVAL
-import `in`.androidplay.trackme.util.UIHelper.logMessage
 import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
 import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import android.annotation.SuppressLint
@@ -111,17 +110,14 @@ class TrackingService : LifecycleService() {
                         setForegroundService()
                         isFirstRun = false
                     } else {
-                        logMessage("Resuming service")
                         startTimer()
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
-                    logMessage("Pause Service")
                     pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
                     killService()
-                    logMessage("Stop Service")
                 }
             }
         }
@@ -152,13 +148,13 @@ class TrackingService : LifecycleService() {
 
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
-        timeRunInSeconds.observe(this, {
+        timeRunInSeconds.observe(this) {
             if (!serviceKilled) {
                 val notification = currentNotificationBuilder
                     .setContentText(getFormattedStopwatchTime(it * 1000))
                 notificationManager.notify(NOTIFICATION_ID, notification.build())
             }
-        })
+        }
     }
 
 
@@ -270,13 +266,11 @@ class TrackingService : LifecycleService() {
 
 
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(result: LocationResult?) {
+        override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
             if (isTracking.value!!) {
-                result?.locations?.let { locations ->
-                    for (location in locations) {
-                        addPathPoint(location)
-                    }
+                for (location in result.locations) {
+                    addPathPoint(location)
                 }
             }
         }
