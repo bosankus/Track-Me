@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SetupFragment : Fragment(R.layout.fragment_setup) {
+class SetupFragment : Fragment() {
 
     private var _binding: FragmentSetupBinding? = null
     private val binding get() = _binding!!

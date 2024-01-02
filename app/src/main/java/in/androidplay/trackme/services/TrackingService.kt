@@ -1,33 +1,16 @@
 package `in`.androidplay.trackme.services
 
-import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE
-import `in`.androidplay.trackme.util.Constants.ACTION_START_OR_RESUME_SERVICE
-import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
-import `in`.androidplay.trackme.util.Constants.ANDROID_OREO
-import `in`.androidplay.trackme.util.Constants.FASTEST_LOCATION_INTERVAL
-import `in`.androidplay.trackme.util.Constants.LOCATION_UPDATE_INTERVAL
-import `in`.androidplay.trackme.util.Constants.NOTIFICATION_CHANNEL_ID
-import `in`.androidplay.trackme.util.Constants.NOTIFICATION_CHANNEL_NAME
-import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_ID
-import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_NAME
-import `in`.androidplay.trackme.util.Constants.NOTIFICATION_ID
-import `in`.androidplay.trackme.util.Constants.TIMER_UPDATE_INTERVAL
-import `in`.androidplay.trackme.util.PermissionUtil.hasLocationPermission
-import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
-import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.getService
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.location.Location
-import android.os.Build
 import android.os.Looper
-import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
@@ -39,6 +22,21 @@ import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import com.google.android.libraries.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
+import `in`.androidplay.trackme.R
+import `in`.androidplay.trackme.util.Constants.ACTION_PAUSE_SERVICE
+import `in`.androidplay.trackme.util.Constants.ACTION_START_OR_RESUME_SERVICE
+import `in`.androidplay.trackme.util.Constants.ACTION_STOP_SERVICE
+import `in`.androidplay.trackme.util.Constants.FASTEST_LOCATION_INTERVAL
+import `in`.androidplay.trackme.util.Constants.FINE_LOCATION
+import `in`.androidplay.trackme.util.Constants.LOCATION_UPDATE_INTERVAL
+import `in`.androidplay.trackme.util.Constants.NOTIFICATION_CHANNEL_ID
+import `in`.androidplay.trackme.util.Constants.NOTIFICATION_CHANNEL_NAME
+import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_ID
+import `in`.androidplay.trackme.util.Constants.NOTIFICATION_GROUP_NAME
+import `in`.androidplay.trackme.util.Constants.NOTIFICATION_ID
+import `in`.androidplay.trackme.util.Constants.TIMER_UPDATE_INTERVAL
+import `in`.androidplay.trackme.util.PermissionUtil.hasPermission
+import `in`.androidplay.trackme.util.TimeFormatUtil.getFormattedStopwatchTime
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -142,9 +140,7 @@ class TrackingService : LifecycleService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= ANDROID_OREO) {
-            createNotification(notificationManager)
-        }
+        createNotification(notificationManager)
 
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
@@ -195,7 +191,6 @@ class TrackingService : LifecycleService() {
     }
 
 
-    @RequiresApi(ANDROID_OREO)
     private fun createNotification(notificationManager: NotificationManager) {
         val channel = NotificationChannel(
             NOTIFICATION_CHANNEL_ID,
@@ -221,12 +216,12 @@ class TrackingService : LifecycleService() {
             val pauseIntent = Intent(this, TrackingService::class.java).apply {
                 action = ACTION_PAUSE_SERVICE
             }
-            getService(this, 1, pauseIntent, FLAG_UPDATE_CURRENT)
+            getService(this, 1, pauseIntent, FLAG_IMMUTABLE)
         } else {
             val resumeIntent = Intent(this, TrackingService::class.java).apply {
                 action = ACTION_START_OR_RESUME_SERVICE
             }
-            getService(this, 2, resumeIntent, FLAG_UPDATE_CURRENT)
+            getService(this, 2, resumeIntent, FLAG_IMMUTABLE)
         }
 
         val notificationManager =
@@ -249,7 +244,7 @@ class TrackingService : LifecycleService() {
     @SuppressLint("MissingPermission")
     private fun updateLocationTracking(isTracking: Boolean) {
         if (isTracking) {
-            if (hasLocationPermission(this)) {
+            if (hasPermission(this, FINE_LOCATION)) {
                 val request = LocationRequest().apply {
                     interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_INTERVAL

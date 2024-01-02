@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16sp"
             android:layout_marginTop="25dp"
-            android:text="@string/statistics"
+            android:text="@string/statistics_nav"
             android:textColor="@color/grey"
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="parent"

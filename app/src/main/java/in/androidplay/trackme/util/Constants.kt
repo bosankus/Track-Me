@@ -19,7 +19,7 @@ object Constants {
 
     // SDK versions
 
-    const val ANDROID_OREO = Build.VERSION_CODES.O
+    const val ANDROID_13 = Build.VERSION_CODES.TIRAMISU
     const val ANDROID_10 = Build.VERSION_CODES.Q
 
 
@@ -33,12 +33,13 @@ object Constants {
     // Permission constants
 
     const val PERMISSION_REQUEST_RATIONAL =
-        "You need to accept location permissions to use this app"
+        "You need to accept all permissions to use this app"
     const val PERMISSION_REQUEST_CODE = 100
 
     const val FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
     const val COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION
     const val BACKGROUND_LOCATION = Manifest.permission.ACCESS_BACKGROUND_LOCATION
+    const val POST_NOTIFICATION = Manifest.permission.POST_NOTIFICATIONS
     const val ACTION_SHOW_TRACKING_FRAGMENT = "ACTION_SHOW_TRACKING_FRAGMENT"
 
 
@@ -76,4 +77,9 @@ object Constants {
     const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
     const val KEY_NAME = "KEY_NAME"
     const val KEY_WEIGHT = "KEY_WEIGHT"
+
+    // Nav graph constants
+
+    const val ONBOARDING_GRAPH = "onboarding_graph"
+    const val HOME_GRAPH = "home_graph"
 }
