@@ -1,72 +1,86 @@
 package `in`.androidplay.trackme.ui.activity
 
-import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.databinding.ActivityMainBinding
-import `in`.androidplay.trackme.util.Constants.ACTION_SHOW_TRACKING_FRAGMENT
-import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
+import `in`.androidplay.trackme.databinding.ActivityMainBinding
+import `in`.androidplay.trackme.ui.navigation.AppNavigation
+import `in`.androidplay.trackme.ui.theme.TrackMeTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @set:Inject
+    var isFirstAppOpen = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
 
-        navigateToTrackingFragmentWhenNeeded(intent)
+        // navigation to global action intent
+        // navigateToTrackingFragmentWhenNeeded(intent)
 
-        supportActionBar?.hide()
+        // setting up nav graph
+        // setUpFragments()
 
-        setUpWindow()
-
-        setUpFragments()
+        // setting up composable
+        setupUi()
     }
 
-
-    private fun setUpWindow() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        } else {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            window.statusBarColor = Color.WHITE
-            window.navigationBarColor = Color.WHITE
+    private fun setupUi() {
+        setContent {
+            TrackMeTheme {
+                Surface {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background)
+                    ) {
+                        AppNavigation(isFirstAppOpen = isFirstAppOpen)
+                    }
+                }
+            }
         }
     }
 
-    private fun setUpFragments() {
-        binding.bottomNavigationView.setupWithNavController(findNavController(R.id.navHostFragment))
+    /*private fun setUpFragments() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment ->
+                    binding.bottomNavigationView.visibility = View.VISIBLE
 
-        findNavController(R.id.navHostFragment)
-            .addOnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment ->
-                        binding.bottomNavigationView.visibility = View.VISIBLE
-                    else -> binding.bottomNavigationView.visibility = View.GONE
-                }
+                else -> binding.bottomNavigationView.visibility = View.GONE
             }
-    }
+        }
+    }*/
 
-    private fun navigateToTrackingFragmentWhenNeeded(intent: Intent?) {
+    /*private fun navigateToTrackingFragmentWhenNeeded(intent: Intent?) {
         intent?.let {
             if (it.action == ACTION_SHOW_TRACKING_FRAGMENT) {
                 findNavController(R.id.navHostFragment).navigate(R.id.action_global_trackingFragment)
             }
         }
-    }
+    }*/
 
-    override fun onNewIntent(intent: Intent?) {
+    /*override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         navigateToTrackingFragmentWhenNeeded(intent)
-    }
+    }*/
 }

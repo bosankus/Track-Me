@@ -11,7 +11,7 @@ import androidx.room.TypeConverters
  * On: 7/31/2020, 12:23 AM
  */
 
-@Database(entities = [Run::class], version = 1)
+@Database(entities = [Run::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class  RunDatabase : RoomDatabase() {
 

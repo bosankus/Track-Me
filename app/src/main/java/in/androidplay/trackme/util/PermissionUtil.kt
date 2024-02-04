@@ -1,61 +1,49 @@
 package `in`.androidplay.trackme.util
 
-import `in`.androidplay.trackme.util.Constants.ANDROID_10
-import `in`.androidplay.trackme.util.Constants.BACKGROUND_LOCATION
-import `in`.androidplay.trackme.util.Constants.COARSE_LOCATION
-import `in`.androidplay.trackme.util.Constants.FINE_LOCATION
-import `in`.androidplay.trackme.util.Constants.PERMISSION_REQUEST_CODE
-import `in`.androidplay.trackme.util.Constants.PERMISSION_REQUEST_RATIONAL
 import android.content.Context
-import android.os.Build
-import androidx.fragment.app.Fragment
-import pub.devrel.easypermissions.EasyPermissions
+import android.content.pm.PackageManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.core.content.ContextCompat
+import `in`.androidplay.trackme.util.UIHelper.openPermissionSettingsPage
 
 /**
  * Created by Androidplay
  * Author: Ankush
  * On: 8/1/2020, 9:12 PM
  */
-object PermissionUtil {
+internal object PermissionUtil {
 
-    fun hasLocationPermission(context: Context) =
-        if (Build.VERSION.SDK_INT < ANDROID_10) {
-            EasyPermissions.hasPermissions(
-                context,
-                FINE_LOCATION,
-                COARSE_LOCATION
-            )
-        } else {
-            EasyPermissions.hasPermissions(
-                context,
-                FINE_LOCATION,
-                COARSE_LOCATION,
-                BACKGROUND_LOCATION
-            )
+    // Check single permission availability
+    fun hasPermission(
+        context: Context,
+        permission: String,
+    ): Boolean {
+        return ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    // request permission from permission lists
+    fun askForPermissions(
+        context: Context,
+        availableListOfPermissions: Array<String>,
+        generatedPermissionList: MutableList<String>,
+        multiplePermissionLauncher: ActivityResultLauncher<Array<String>>,
+    ) {
+        val newPermissionStr = Array(generatedPermissionList.size) { "" }
+        for (i in newPermissionStr.indices) {
+            newPermissionStr[i] = availableListOfPermissions[i]
         }
-
-    fun askPermissions(fragment: Fragment) {
-        if (hasLocationPermission(fragment.requireContext())) {
-            return
+        if (newPermissionStr.isNotEmpty()) {
+            multiplePermissionLauncher.launch(newPermissionStr)
         } else {
-            if (Build.VERSION.SDK_INT < ANDROID_10) {
-                EasyPermissions.requestPermissions(
-                    fragment,
-                    PERMISSION_REQUEST_RATIONAL,
-                    PERMISSION_REQUEST_CODE,
-                    FINE_LOCATION,
-                    COARSE_LOCATION
-                )
-            } else {
-                EasyPermissions.requestPermissions(
-                    fragment,
-                    PERMISSION_REQUEST_RATIONAL,
-                    PERMISSION_REQUEST_CODE,
-                    FINE_LOCATION,
-                    COARSE_LOCATION,
-                    BACKGROUND_LOCATION
-                )
-            }
+            /* User has pressed 'Deny & Don't ask again' so we have to show the enable permissions dialog
+        which will lead them to app details page to enable permissions from there. */
+            UIHelper.showAlert(
+                context,
+                Constants.PERMISSION_REQUEST_RATIONAL,
+            ) { context.openPermissionSettingsPage() }
         }
     }
 }

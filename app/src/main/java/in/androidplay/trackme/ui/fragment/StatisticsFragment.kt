@@ -39,11 +39,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
-        setupBarChart()
+        // setObservers()
+        // setupBarChart()
     }
 
-    private fun setObservers() {
+    /*private fun setObservers() {
         statisticsViewModel.totalTimeRun.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val totalTimeRun = "Total Time: " + getFormattedStopwatchTime(it)
@@ -80,7 +80,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 binding.barChart.invalidate()
             }
         })
-    }
+    }*/
 
 
     private fun setupBarChart() {

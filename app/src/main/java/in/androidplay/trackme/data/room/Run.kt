@@ -1,6 +1,7 @@
 package `in`.androidplay.trackme.data.room
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.Stable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -11,6 +12,7 @@ import androidx.room.PrimaryKey
  */
 
 @Entity(tableName = "running_table")
+@Stable
 data class Run(
     var img: Bitmap? = null,
     var timestamp: Long = 0L,

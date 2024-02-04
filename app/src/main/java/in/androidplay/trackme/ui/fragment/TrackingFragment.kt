@@ -2,7 +2,6 @@ package `in`.androidplay.trackme.ui.fragment
 
 import `in`.androidplay.trackme.R
 import `in`.androidplay.trackme.data.room.Run
-import `in`.androidplay.trackme.data.viewmodel.MainViewModel
 import `in`.androidplay.trackme.databinding.FragmentTrackingBinding
 import `in`.androidplay.trackme.services.PolyLine
 import `in`.androidplay.trackme.services.TrackingService
@@ -43,8 +42,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
 
     private var _binding: FragmentTrackingBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: MainViewModel by viewModels()
 
     private var map: GoogleMap? = null
 
@@ -219,7 +216,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking), OnMapReadyCallbac
                 bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeMillis, caloriesBurned
             )
 
-            viewModel.insertRun(run)
+            // viewModel.insertRun(run)
             showSnack(
                 requireActivity().findViewById(R.id.rootView), "Run saved successfully"
             )
