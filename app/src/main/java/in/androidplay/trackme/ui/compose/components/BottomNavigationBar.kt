@@ -74,7 +74,7 @@ fun BottomNavigationBar(
                                 contentDescription = stringResource(id = screen.label)
                             )
                     },
-                    alwaysShowLabel = true,
+                    alwaysShowLabel = false,
                     selected = isSelected,
                     label = { Text(text = screen.route) },
                     colors = NavigationBarItemDefaults.colors(

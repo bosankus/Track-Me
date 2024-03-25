@@ -81,5 +81,5 @@ object Constants {
     // Nav graph constants
 
     const val ONBOARDING_GRAPH = "onboarding_graph"
-    const val HOME_GRAPH = "home_graph"
+    const val MAIN_GRAPH = "main_graph"
 }

@@ -10,9 +10,9 @@ import `in`.androidplay.trackme.util.Constants.ONBOARDING_GRAPH
 fun NavGraphBuilder.onboardingNavGraph(navController: NavController) {
     navigation(
         route = ONBOARDING_GRAPH,
-        startDestination = OnboardingScreen.SetupScreen.route
+        startDestination = OnboardingScreens.SetupScreen.route
     ) {
-        composable(route = OnboardingScreen.SetupScreen.route) {
+        composable(route = OnboardingScreens.SetupScreen.route) {
             SetupScreen(navController = navController)
         }
         // add future onboarding composable here

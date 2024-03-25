@@ -11,9 +11,12 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import `in`.androidplay.trackme.R
 
-sealed class OnboardingScreen(val route: String) {
+sealed class OnboardingScreens(val route: String) {
+    data object SetupScreen : OnboardingScreens("setup_screen")
+}
 
-    data object SetupScreen : OnboardingScreen("setup_screen")
+sealed class MainScreens(val route: String) {
+    data object HomeScreen : MainScreens("home_screen")
 }
 
 sealed class BottomNavItem(

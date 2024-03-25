@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import `in`.androidplay.trackme.R
-import `in`.androidplay.trackme.ui.navigation.BottomNavItem
-import `in`.androidplay.trackme.util.Constants.HOME_GRAPH
+import `in`.androidplay.trackme.util.Constants.MAIN_GRAPH
 import `in`.androidplay.trackme.util.ResultData
 import kotlinx.coroutines.launch
 
@@ -50,7 +50,7 @@ fun SetupScreen(
 
     // Screen state management
     when (screenState.value) {
-        is ResultData.Success -> navController.navigate(route = HOME_GRAPH)
+        is ResultData.Success -> navController.navigate(route = MAIN_GRAPH)
         is ResultData.Failed -> {
             val message = (screenState.value as ResultData.Failed).message?.asString(context)
             message?.let {
