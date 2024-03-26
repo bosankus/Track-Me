@@ -14,6 +14,6 @@ fun AppNavigation(isFirstAppOpen: Boolean) {
         startDestination = if (isFirstAppOpen) ONBOARDING_GRAPH else MAIN_GRAPH
     ) {
         onboardingNavGraph(navController = navController)
-        mainNavGraph()
+        mainNavGraph(navController = navController)
     }
 }

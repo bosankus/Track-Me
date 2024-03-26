@@ -17,6 +17,7 @@ sealed class OnboardingScreens(val route: String) {
 
 sealed class MainScreens(val route: String) {
     data object HomeScreen : MainScreens("home_screen")
+    data object RunScreen : MainScreens("run_screen")
 }
 
 sealed class BottomNavItem(

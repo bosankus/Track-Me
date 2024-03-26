@@ -29,14 +29,13 @@ import `in`.androidplay.trackme.ui.navigation.HomeNavGraph
 @Composable
 internal fun MainScreen(
     navController: NavHostController = rememberNavController(),
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel
 ) {
     val navBarItem = rememberSaveable { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val routeName = navBackStackEntry?.destination?.route
 
-    Scaffold(
-        containerColor = Color.Transparent,
+    Scaffold(containerColor = Color.Transparent,
         contentColor = MaterialTheme.colorScheme.onBackground,
         topBar = { HomeAppBar(routeName ?: stringResource(id = R.string.app_name)) },
         content = { innerPadding ->
@@ -62,6 +61,5 @@ internal fun MainScreen(
                     contentDescription = stringResource(id = R.string.sort_txt)
                 )
             }
-        }
-    )
+        })
 }

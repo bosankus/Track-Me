@@ -15,7 +15,7 @@ import `in`.androidplay.trackme.ui.compose.components.RunViewItem
 import `in`.androidplay.trackme.util.ResultData
 
 @Composable
-internal fun HomeScreenContent(
+internal fun HomeScreen(
     modifier: Modifier,
     viewModel: HomeViewModel,
 ) {

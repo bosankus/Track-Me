@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.devtools.ksp'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "com.google.android.libraries.mapsplatform.secrets-gradle-plugin"
 
 android {
     namespace 'in.androidplay.trackme'
@@ -73,7 +74,7 @@ dependencies {
     // Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:2.7.6"
     implementation "androidx.navigation:navigation-ui-ktx:2.7.6"
-    implementation "androidx.navigation:navigation-compose:2.7.6"
+    implementation "androidx.navigation:navigation-compose:2.7.7"
 
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -95,7 +96,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
 
     // Hilt + compose
-    implementation "androidx.hilt:hilt-navigation-compose:1.1.0"
+    implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
     implementation "com.google.dagger:hilt-android:2.49"
     ksp "com.google.dagger:hilt-android-compiler:2.49"
 
@@ -112,5 +113,8 @@ dependencies {
 
     // Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Map compose
+    implementation 'com.google.maps.android:maps-compose:4.3.3'
 
 }
